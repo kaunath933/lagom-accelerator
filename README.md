@@ -2,13 +2,13 @@ Common-lagom
 ====
 This is a Lagom framework module which can be implemented by another module. Implementing common-lagom will reduce a lot of ectra code.
   
-##How to use
+## How to use
 To use it, clone the repo from github
 `https://github.com/kaunath933/common-lagom.git`  
   
 You will see an example of **customer-lagom-api** and **customer-lagom-impl** that are using functionalities of common-lagom.
   
-##How to define your own services  
+## How to define your own services  
 in `build.sbt`   
 
 ```bash 
