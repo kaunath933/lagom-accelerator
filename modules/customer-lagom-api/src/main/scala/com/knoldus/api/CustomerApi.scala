@@ -4,6 +4,9 @@ import akka.{Done, NotUsed}
 import com.lightbend.lagom.scaladsl.api.transport.Method
 import com.lightbend.lagom.scaladsl.api.{Descriptor, Service, ServiceAcl, ServiceCall}
 
+/**
+ * The customer service trait
+ */
 trait CustomerApi extends Service {
 
   def getAllCustomers: ServiceCall[NotUsed, List[CustomerDetails]]

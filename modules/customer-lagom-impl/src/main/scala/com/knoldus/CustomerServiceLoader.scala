@@ -11,13 +11,29 @@ import com.lightbend.lagom.scaladsl.server._
 import com.softwaremill.macwire._
 import play.api.libs.ws.ahc.AhcWSComponents
 
+/**
+ * The class CustomerServiceLoader which extends LagomApplicationLoader.
+ * The LagomApplicationLoader is a play application loader for lagom
+ */
 class CustomerServiceLoader extends LagomApplicationLoader {
 
+  /**
+   * This method loads a lagom application in production
+   *
+   * @param context - The LagomApplicationContext
+   * @return
+   */
   override def load(context: LagomApplicationContext): LagomApplication =
     new CustomerServiceApplication(context) {
       override def serviceLocator: ServiceLocator = NoServiceLocator
     }
 
+  /**
+   * This method loads a lagom application in development environment
+   *
+   * @param context  - The LagomApplicationContext
+   * @return
+   */
   override def loadDevMode(context: LagomApplicationContext): LagomApplication = {
     new CustomerServiceApplication(context) with LagomDevModeComponents
   }
