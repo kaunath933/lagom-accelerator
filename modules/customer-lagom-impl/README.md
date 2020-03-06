@@ -1,4 +1,4 @@
-#customer lagom-impl modoule
+#customer lagom-impl module
 This is a sample lagom module which implements lagom classes from common-lagom module and lagom-api module
 
 ## How to Run

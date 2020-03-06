@@ -9,7 +9,7 @@ import com.lightbend.lagom.scaladsl.persistence.PersistentEntity
 import com.lightbend.lagom.scaladsl.playjson.{JsonSerializer, JsonSerializerRegistry}
 
 /**
- * To create a persistent entity, you should extend the PersisttentEntity trait and override Command, Event,State and initialState
+ * To create a persistent entity, you should extend the PersistentEntity trait and override Command, Event,State and initialState
  * with your command class, event class ,state class and initial state respectively.
  */
 class CustomerEntity extends PersistentEntity {
