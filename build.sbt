@@ -10,9 +10,10 @@ scalaVersion in ThisBuild := "2.12.8"
 val macwire = "com.softwaremill.macwire" %% "macros" % "2.3.0" % "provided"
 val scalaTest = "org.scalatest" %% "scalatest" % "3.0.4" % Test
 val kafka = "org.apache.kafka" %% "kafka" % "2.4.0"
+val akkaStream = "com.typesafe.akka" %% "akka-stream" % "2.6.3"
 
 lazy val `lagom-acclerator` = (project in file("."))
-  .aggregate(`common-lagom`, `customer-lagom-api`, `customer-lagom-impl`)
+  .aggregate(`common-lagom`, `customer-lagom-api`, `common-kafka`, `customer-lagom-impl`)
 
 val commonLagomAPISettings = libraryDependencies ++= Seq(
   lagomScaladslApi
@@ -24,6 +25,7 @@ val commonLagomImplSettings = libraryDependencies ++= Seq(
   lagomScaladslTestKit,
   macwire,
   kafka,
+  akkaStream,
   scalaTest
 )
 
@@ -43,6 +45,7 @@ lazy val  `common-kafka` = (project in file ("modules/common-kafka"))
 lazy val `customer-lagom-api` = (project in file("modules/customer-lagom-api"))
   .settings(name := "lagom-api")
   .settings(commonLagomAPISettings: _*)
+  .dependsOn(`common-kafka`)
 
 lazy val `customer-lagom-impl` = (project in file("modules/customer-lagom-impl"))
   .enablePlugins(LagomScala)

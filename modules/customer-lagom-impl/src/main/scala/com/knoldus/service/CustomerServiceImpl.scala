@@ -1,14 +1,18 @@
 package com.knoldus.service
 
+import akka.actor.FSM.Event
 import akka.{Done, NotUsed}
 import com.knoldus.Constants.QueryConstants
 import com.knoldus.CustomerEntity
 import com.knoldus.api.{CustomerApi, CustomerDetails}
 import com.knoldus.command.{Commands, CreateCustomerCommand, DeleteCustomerCommand}
+import com.knoldus.events.Events
 import com.lightbend.lagom.scaladsl.api.ServiceCall
+import com.lightbend.lagom.scaladsl.api.broker.Topic
 import com.lightbend.lagom.scaladsl.api.transport.{ExceptionMessage, NotFound, TransportErrorCode}
+import com.lightbend.lagom.scaladsl.broker.TopicProducer
 import com.lightbend.lagom.scaladsl.persistence.cassandra.CassandraSession
-import com.lightbend.lagom.scaladsl.persistence.{PersistentEntityRef, PersistentEntityRegistry}
+import com.lightbend.lagom.scaladsl.persistence.{EventStreamElement, PersistentEntityRef, PersistentEntityRegistry}
 
 import scala.concurrent.ExecutionContext
 
@@ -72,6 +76,13 @@ class CustomerServiceImpl( persistentEntityRegistry: PersistentEntityRegistry, s
 
   }
 
+  override def publishDetailsToKafka : Topic[CustomerDetails] = TopicProducer.taggedStreamWithOffset(Events.Tag.allTags.toList) { (tag, offset) =>
+    persistentEntityRegistry.eventStream(tag, offset)
+      .collect{
+        case  EventStreamElement(str, event, offset) =>
+      }
+
+  }
   def ref(id: String): PersistentEntityRef[Commands[_]] = {
     persistentEntityRegistry
       .refFor[CustomerEntity](id)
