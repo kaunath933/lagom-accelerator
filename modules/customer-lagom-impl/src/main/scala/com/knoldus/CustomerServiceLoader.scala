@@ -1,10 +1,12 @@
 package com.knoldus
 
+import com.knoldus.CustomerTopicSubscriber.{CustomerTopicServiceFlow, CustomerTopicSubscriber}
 import com.knoldus.api.CustomerApi
 import com.knoldus.events.CustomerEventReadSideProcessor
 import com.knoldus.service.CustomerServiceImpl
 import com.lightbend.lagom.scaladsl.api.ServiceLocator
 import com.lightbend.lagom.scaladsl.api.ServiceLocator.NoServiceLocator
+import com.lightbend.lagom.scaladsl.broker.kafka.LagomKafkaComponents
 import com.lightbend.lagom.scaladsl.devmode.LagomDevModeComponents
 import com.lightbend.lagom.scaladsl.persistence.cassandra.CassandraPersistenceComponents
 import com.lightbend.lagom.scaladsl.server._
@@ -44,6 +46,7 @@ class CustomerServiceLoader extends LagomApplicationLoader {
 abstract class CustomerServiceApplication(context: LagomApplicationContext)
   extends LagomApplication(context)
     with CassandraPersistenceComponents
+  with LagomKafkaComponents
     with AhcWSComponents {
 
   // Bind the service that this server provides
@@ -51,6 +54,10 @@ abstract class CustomerServiceApplication(context: LagomApplicationContext)
 
   //Register the JSON serializer registry
   override lazy val jsonSerializerRegistry = CustomerSerializerRegistry
+
+  lazy val customerTopicServiceSubscriberFlows = wire[CustomerTopicServiceFlow]
+
+ // cluster.registerOnMemberUp(wire[CustomerTopicSubscriber])
 
   // Register the lagom-persistent-entity-demo persistent entity
   persistentEntityRegistry.register(wire[CustomerEntity])

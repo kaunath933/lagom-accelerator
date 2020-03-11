@@ -19,7 +19,7 @@ trait CustomerApi extends Service {
 
   def deleteCustomer(id: String): ServiceCall[NotUsed, Done]
 
-  def publishDetailsToKafka: Topic[CustomerDetails]
+  //def publishDetailsToKafka: Topic[CustomerDetails]
 
   override final def descriptor: Descriptor = {
     import Service._
@@ -30,8 +30,9 @@ trait CustomerApi extends Service {
         restCall(Method.GET, "/api/details/get/:id", getCustomerDetails _),
         restCall(Method.POST, "/api/details/add/", addCustomer _ ),
         restCall(Method.DELETE, "/api/delete/:id", deleteCustomer _)
-      ).withTopics(
-      topic("customer", publishDetailsToKafka).addProperty(KafkaProperties.partitionKeyStrategy, PartitionKeyStrategy[CustomerDetails](_.id))
+     // )
+      //.withTopics(
+      //topic("customer", publishDetailsToKafka).addProperty(KafkaProperties.partitionKeyStrategy, PartitionKeyStrategy[CustomerDetails](_.id))
     ).withAutoAcl(true)
 
   }

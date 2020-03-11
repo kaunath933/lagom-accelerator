@@ -76,13 +76,13 @@ class CustomerServiceImpl( persistentEntityRegistry: PersistentEntityRegistry, s
 
   }
 
-  override def publishDetailsToKafka : Topic[CustomerDetails] = TopicProducer.taggedStreamWithOffset(Events.Tag.allTags.toList) { (tag, offset) =>
-    persistentEntityRegistry.eventStream(tag, offset)
-      .collect{
-        case  EventStreamElement(str, event, offset) =>
-      }
-
-  }
+//  override def publishDetailsToKafka : Topic[CustomerDetails] = TopicProducer.taggedStreamWithOffset(Events.Tag.allTags.toList) { (tag, offset) =>
+//    persistentEntityRegistry.eventStream(tag, offset)
+//      .collect{
+//        case  EventStreamElement(str, event, offset) =>
+//      }
+//
+//  }
   def ref(id: String): PersistentEntityRef[Commands[_]] = {
     persistentEntityRegistry
       .refFor[CustomerEntity](id)

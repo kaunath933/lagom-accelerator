@@ -10,7 +10,7 @@ scalaVersion in ThisBuild := "2.12.8"
 val macwire = "com.softwaremill.macwire" %% "macros" % "2.3.0" % "provided"
 val scalaTest = "org.scalatest" %% "scalatest" % "3.0.4" % Test
 val kafka = "org.apache.kafka" %% "kafka" % "2.4.0"
-val akkaStream = "com.typesafe.akka" %% "akka-stream" % "2.6.3"
+//val akkaStream = "com.typesafe.akka" %% "akka-stream" % "2.6.3"
 
 lazy val `lagom-acclerator` = (project in file("."))
   .aggregate(`common-lagom`, `customer-lagom-api`, `common-kafka`, `customer-lagom-impl`)
@@ -24,8 +24,8 @@ val commonLagomImplSettings = libraryDependencies ++= Seq(
   lagomScaladslKafkaBroker,
   lagomScaladslTestKit,
   macwire,
-  kafka,
-  akkaStream,
+  //kafka,
+ // akkaStream,
   scalaTest
 )
 
@@ -57,3 +57,6 @@ lazy val `customer-lagom-impl` = (project in file("modules/customer-lagom-impl")
 
 lagomCassandraEnabled in ThisBuild := false
 lagomUnmanagedServices in ThisBuild := Map("cas_native" -> "http://localhost:9042")
+
+lagomKafkaEnabled in ThisBuild := false
+lagomKafkaAddress in ThisBuild := "localhost:9092"
