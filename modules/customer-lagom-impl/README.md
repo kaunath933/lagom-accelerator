@@ -11,3 +11,20 @@ This is a sample lagom module which implements lagom classes from common-lagom m
 ## What it does 
 This customer-lagom-impl service persists it's data to a cassandra database using lagom's persistence api and here it is intended to show how to persist state using lagom.  
 This service also has a readside which is used to handle the events produced by persistent entity and for tracking which events it has handled.
+
+## How to integrate with kafka
+1. Create a class for subscriber and inject `PersistentEntityRegistry` and `ActorSystem` as shown below
+
+```bash
+class CustomerTopicServiceFlow(registry: PersistentEntityRegistry, actorSystem: ActorSystem) {
+// your code here
+}
+```
+
+2.  Create a class and inject `CustomerKafkaApi` and  `CustomerTopicServiceFlow` as shown below
+```bash
+CustomerTopicSubscriber(customerServiceKafka: CustomerKafkaApi, customerTopicServiceFlow: CustomerTopicServiceFlow) {
+     customerServiceKafka.publishDetailsToKafka.subscribe.atLeastOnce {
+        customerTopicServiceFlow.customerTopicsDetailsFlow
+      }
+```
