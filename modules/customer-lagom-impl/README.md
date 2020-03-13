@@ -28,3 +28,9 @@ CustomerTopicSubscriber(customerServiceKafka: CustomerKafkaApi, customerTopicSer
         customerTopicServiceFlow.customerTopicsDetailsFlow
       }
 ```
+
+3. To create a flow just extend the `CommonProducerFlow` and like shown below
+
+```bash
+object KafkaProducerFlow extends KafkaProducerFlow 
+```
